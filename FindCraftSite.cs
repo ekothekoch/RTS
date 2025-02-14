@@ -13,9 +13,12 @@ public class FindCraftSite : MonoBehaviour
     public PlayerSetupDefinition Info;
     public Transform Source;
     public float cost = 200;
+    public ResourceGeneratorData generatorData;
+    public BuildingTypeSO buildingType;
     private void Start()
     {
         MouseManager.Current.enabled = false;
+       
         rend = GetComponent<Renderer>();
     }
     void Update()
@@ -24,7 +27,8 @@ public class FindCraftSite : MonoBehaviour
         if (tempTarget.HasValue == false)
             return;
         transform.position = tempTarget.Value;
-        if (Vector3.Distance(transform.position, Source.position) > maxBuildDistance)
+        //Vector3.Distance(transform.position, Source.position) > maxBuildDistance &&
+        if (ResourceGenerator.GetNearbyResourceAmount(generatorData, transform.position) == 0)
         {
             rend.material.color = red;
             return;
@@ -40,7 +44,7 @@ public class FindCraftSite : MonoBehaviour
             rend.material.color = green;
             if (Input.GetMouseButtonDown(0))
             {
-               
+                ResourceManager.Instance.SpendResources(buildingType.constructionResourceCostArray);
                 var go = Instantiate(buildingPrefab);
                 go.transform.position = transform.position;
                 //Info.Credits -= cost;

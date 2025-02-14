@@ -12,7 +12,7 @@ public class CreateGoldMine : ActionBehavior
     GameObject active = null;
     public GameObject buildingPrefab;
     //public float maxBuildingDistance = 30;
-    [SerializeField] ResourceAmount[] resourceCostArray;
+        [SerializeField] ResourceAmount[] resourceCostArray;
     // public float cost = 0;
     public override System.Action GetClickAction()
     {
@@ -26,12 +26,14 @@ public class CreateGoldMine : ActionBehavior
 
             if (ResourceManager.Instance.CanAfford(resourceCostArray))
             {
-                ResourceManager.Instance.SpendResources(resourceCostArray);
+               // ResourceManager.Instance.SpendResources(resourceCostArray);
 
                 var go = Instantiate(GhostBuildingPrefab);
                 var finder = go.AddComponent<FindCraftSite>();
                 //var holder=go.AddComponent<BuildingTypeHolder>();
+                finder.buildingType = buildingType;
                 finder.buildingPrefab = buildingType.prefab;
+                finder.generatorData = buildingType.resourceGeneratorData;
                // finder.maxBuildDistance = maxBuildingDistance;
                 //finder.Info = player;
                 finder.Source = transform;
@@ -51,6 +53,12 @@ public class CreateGoldMine : ActionBehavior
     {
         if (active == null) return;
         Destroy(active);
+    }
+    private void Start()
+    {
+        
+
+
     }
 
 
