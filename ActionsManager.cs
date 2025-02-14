@@ -49,4 +49,5 @@ public class ActionsManager : MonoBehaviour {
 
 		ClearButtons ();
 	}
+	//DENEMEDENEME
 }
